@@ -41,6 +41,18 @@ export const resolvers = {
                         reject(error);
                     })
             });
+        },
+
+        removeCustomer: (root, { id }) => {
+            return new Promise((resolve, reject) => {
+                Customers.findOneAndRemove({ _id: id })
+                    .then(() => {
+                        resolve("Customer removed succesfully!")
+                    })  
+                    .catch((error) => {
+                        reject(error);
+                    })
+            });
         }
     }
 };

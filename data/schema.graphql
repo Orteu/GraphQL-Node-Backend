@@ -35,5 +35,6 @@ input customerInput {
 }
 type Mutation {
     createCustomer(input: customerInput) : Customer,
-    updateCustomer(input: customerInput) : Customer
+    updateCustomer(input: customerInput) : Customer,
+    removeCustomer(id: ID) : String
 }
