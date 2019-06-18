@@ -1,18 +1,11 @@
 import express from 'express';
-import graphqlHTTP from 'express-graphql';
-import { schema } from './data/schema';
+import { ApolloServer } from 'apollo-server-express';
+import { typeDefs } from './data/schema';
+import { resolvers } from './data/resolvers';
 
 const app = express();
+const server = new ApolloServer({ typeDefs, resolvers });
 
-app.get('/', (req, res) => {
-    res.send('Todo listo');
-});
+server.applyMiddleware({ app });
 
-app.use('/graphql', graphqlHTTP({
-    // Pasamos el schema que se usará
-    schema,
-    // Esto crea la interfaz GraphiQL en el puerto que asignamos
-    graphiql: true
-}));
-
-app.listen(5000, () => console.log('Server started and working'));
+app.listen({ port: 5000}, () => console.log("Server running and working"));
