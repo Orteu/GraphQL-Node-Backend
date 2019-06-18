@@ -7,8 +7,16 @@ export const resolvers = {
         getAllCustomers: (root, {limit}) => {
             return Customers.find({}).limit(limit);
         },
-        getCustomer: ({id}) => {
-            return new Customer(id, customerDB[id]);
+        getCustomerById: (root, {id}) => {
+            return new Promise((resolve, reject) => {
+                Customers.findById(id)
+                    .then((response) => {
+                        resolve(response);
+                    })
+                    .catch((error) => {
+                        reject(error);
+                    })
+            });
         },
     },
     Mutation: {

@@ -18,7 +18,7 @@ enum TypeAccount {
 }
 type Query {
     getAllCustomers(limit: Int): [Customer],
-    getCustomer(id: ID): Customer
+    getCustomerById(id: ID): Customer
 }
 input AppointmentInput {
     day: String,
