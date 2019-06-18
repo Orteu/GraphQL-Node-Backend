@@ -4,6 +4,9 @@ import { Customers } from './db';
 
 export const resolvers = {
     Query: {
+        getAllCustomers: () => {
+            return Customers.find({});
+        },
         getCustomer: ({id}) => {
             return new Customer(id, customerDB[id]);
         },

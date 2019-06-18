@@ -17,6 +17,7 @@ enum TypeAccount {
     ADMIN
 }
 type Query {
+    getAllCustomers: [Customer],
     getCustomer(id: ID): Customer
 }
 input AppointmentInput {
