@@ -1,11 +1,11 @@
 import mongoose from 'mongoose';
-import { Customers } from './db';
+import { Customers, Products } from './db';
 
 
 export const resolvers = {
     Query: {
-        getAllCustomers: (root, {limit}) => {
-            return Customers.find({}).limit(limit);
+        getAllCustomers: (root, {limit, offset}) => {
+            return Customers.find({}).limit(limit).skip(offset);
         },
         getCustomerById: (root, {id}) => {
             return new Promise((resolve, reject) => {
@@ -18,8 +18,20 @@ export const resolvers = {
                     })
             });
         },
+        totalCustomers: (root) => {
+            return new Promise((resolve, reject) => {
+                Customers.countDocuments()
+                    .then((response) => {
+                        resolve(response);
+                    })
+                    .catch((error) => {
+                        reject(error);
+                    })
+            });
+        }
     },
     Mutation: {
+        // Customer mutations
         createCustomer: (root, {input}) => {
             const newCustomer = new Customers({
                 name: input.name,
@@ -64,6 +76,27 @@ export const resolvers = {
                         reject(error);
                     })
             });
-        }
+        },
+
+        // Product mutations
+        createProduct: (root, {input}) => {
+            const newProduct = new Products({
+                name: input.name,
+                price: input.price,
+                stock: input.stock
+            })
+
+            newProduct.id = newProduct._id;
+
+            return new Promise((resolve, reject) => {
+                newProduct.save()
+                    .then((response) => {
+                        resolve(response);
+                    })
+                    .catch((error) => {
+                        reject(error);
+                    })
+            });
+        },
     }
 };

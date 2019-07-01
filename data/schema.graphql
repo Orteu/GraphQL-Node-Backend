@@ -1,15 +1,21 @@
-type Customer {
-        id: ID,
-        name: String,
-        surname: String,
-        email: String,
-        type: TypeAccount
-        appointments: [Appointment]
-    }
 type Appointment {
     day: String,
     time: String,
     company: String
+}
+type Customer {
+    id: ID,
+    name: String,
+    surname: String,
+    email: String,
+    type: TypeAccount
+    appointments: [Appointment]
+}
+type Product {
+    id: ID,
+    name: String!,
+    price: Int!,
+    stock: Int!
 }
 enum TypeAccount {
     USER
@@ -17,8 +23,9 @@ enum TypeAccount {
     ADMIN
 }
 type Query {
-    getAllCustomers(limit: Int): [Customer],
-    getCustomerById(id: ID): Customer
+    getAllCustomers(limit: Int, offset: Int): [Customer],
+    getCustomerById(id: ID): Customer,
+    totalCustomers: String
 }
 input AppointmentInput {
     day: String,
@@ -32,10 +39,18 @@ input customerInput {
     email: String,
     type: TypeAccount
     appointments: [AppointmentInput]
-
+}
+input productInput {
+    id: ID,
+    name: String!,
+    price: Int!,
+    stock: Int!
 }
 type Mutation {
+    # Mutations for customers
     createCustomer(input: customerInput) : Customer,
     updateCustomer(input: customerInput) : Customer,
     removeCustomer(id: ID) : String
+    # Mutations for products
+    createProduct(input: productInput) : Product,
 }
