@@ -23,9 +23,13 @@ enum TypeAccount {
     ADMIN
 }
 type Query {
+    # Customer queries
     getAllCustomers(limit: Int, offset: Int): [Customer],
     getCustomerById(id: ID): Customer,
     totalCustomers: String
+    # Product queries
+    getAllProducts(limit: Int, offset: Int): [Product],
+    getProductById(id: ID): Product,
 }
 input AppointmentInput {
     day: String,
@@ -53,4 +57,6 @@ type Mutation {
     removeCustomer(id: ID) : String
     # Mutations for products
     createProduct(input: productInput) : Product,
+    updateProduct(input: productInput) : Product,
+    removeProduct(id: ID) : String
 }

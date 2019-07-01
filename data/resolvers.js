@@ -4,6 +4,7 @@ import { Customers, Products } from './db';
 
 export const resolvers = {
     Query: {
+        // Customer queries
         getAllCustomers: (root, {limit, offset}) => {
             return Customers.find({}).limit(limit).skip(offset);
         },
@@ -28,7 +29,22 @@ export const resolvers = {
                         reject(error);
                     })
             });
-        }
+        },
+        // Product queries
+        getAllProducts: (root, {limit, offset}) => {
+            return Products.find({}).limit(limit).skip(offset);
+        },
+        getProductById: (root, {id}) => {
+            return new Promise((resolve, reject) => {
+                Products.findById(id)
+                    .then((response) => {
+                        resolve(response);
+                    })
+                    .catch((error) => {
+                        reject(error);
+                    })
+            });
+        },
     },
     Mutation: {
         // Customer mutations
@@ -93,6 +109,28 @@ export const resolvers = {
                     .then((response) => {
                         resolve(response);
                     })
+                    .catch((error) => {
+                        reject(error);
+                    })
+            });
+        },
+        updateProduct: (root, { input }) => {
+            return new Promise((resolve, reject) => {
+                Products.findOneAndUpdate({ _id: input.id }, input, { new: true })
+                    .then((response) => {
+                        resolve(response);
+                    })
+                    .catch((error) => {
+                        reject(error);
+                    })
+            });
+        },
+        removeProduct: (root, { id }) => {
+            return new Promise((resolve, reject) => {
+                Products.findOneAndRemove({ _id: id })
+                    .then(() => {
+                        resolve("Product removed succesfully!")
+                    })  
                     .catch((error) => {
                         reject(error);
                     })
