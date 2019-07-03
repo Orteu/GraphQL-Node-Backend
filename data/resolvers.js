@@ -45,6 +45,17 @@ export const resolvers = {
                     })
             });
         },
+        totalProducts: (root) => {
+            return new Promise((resolve, reject) => {
+                Products.countDocuments()
+                    .then((response) => {
+                        resolve(response);
+                    })
+                    .catch((error) => {
+                        reject(error);
+                    })
+            });
+        },
     },
     Mutation: {
         // Customer mutations

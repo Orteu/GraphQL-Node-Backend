@@ -30,6 +30,7 @@ type Query {
     # Product queries
     getAllProducts(limit: Int, offset: Int): [Product],
     getProductById(id: ID): Product,
+    totalProducts: String
 }
 input AppointmentInput {
     day: String,
