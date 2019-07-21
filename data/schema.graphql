@@ -17,10 +17,27 @@ type Product {
     price: Int!,
     stock: Int!
 }
+input Order {
+    id: ID,
+    order: [orderProductInput],
+    totalPrice: Int,
+    date: String,
+    customer: ID,
+    status: OrderStatus
+}
+type OrderProduct {
+    id: ID,
+    quantity: Int
+}
 enum TypeAccount {
     USER
     COMPANY
     ADMIN
+}
+enum OrderStatus {
+    PENDING,
+    COMPLETED,
+    CANCELLED
 }
 type Query {
     # Customer queries
@@ -51,6 +68,18 @@ input productInput {
     price: Int!,
     stock: Int!
 }
+input orderInput {
+    id: ID,
+    order: [orderProductInput],
+    totalPrice: Int,
+    date: String,
+    customer: ID,
+    status: OrderStatus
+}
+input orderProductInput {
+    id: ID,
+    quantity: Int
+}
 type Mutation {
     # Mutations for customers
     createCustomer(input: customerInput) : Customer,
@@ -60,4 +89,6 @@ type Mutation {
     createProduct(input: productInput) : Product,
     updateProduct(input: productInput) : Product,
     removeProduct(id: ID) : String
+    # Mutations for orders
+    createOrder(input: orderInput) : Order,
 }

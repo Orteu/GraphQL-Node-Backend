@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { Customers, Products } from './db';
+import { Customers, Products, Orders } from './db';
 
 
 export const resolvers = {
@@ -56,6 +56,8 @@ export const resolvers = {
                     })
             });
         },
+
+        // Order queries
     },
     Mutation: {
         // Customer mutations
@@ -142,6 +144,29 @@ export const resolvers = {
                     .then(() => {
                         resolve("Product removed succesfully!")
                     })  
+                    .catch((error) => {
+                        reject(error);
+                    })
+            });
+        },
+
+        // Order mutations
+        createOrder: (root, {input}) => {
+            const newOrder = new Orders({
+                order: input.order,
+                totalPrice: input.totalPrice,
+                date: new Date(),
+                customer: input.customer,
+                status: "PENDING"
+            })
+
+            newOrder.id = newOrder._id;
+
+            return new Promise((resolve, reject) => {
+                newOrder.save()
+                    .then((response) => {
+                        resolve(response);
+                    })
                     .catch((error) => {
                         reject(error);
                     })
